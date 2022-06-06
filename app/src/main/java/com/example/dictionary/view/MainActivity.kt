@@ -1,6 +1,8 @@
 package com.example.dictionary.view
 
+import android.media.AudioAttributes
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -20,7 +22,6 @@ class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     private val isOnline = true
     private val interactor = InteractorImpl()
     private val presenter = PresenterImpl(interactor)
-    private val player = MediaPlayer()
     private val adapter by lazy {
         MainAdapter {
             playSong(it?.soundUrl)
@@ -73,11 +74,19 @@ class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     }
 
     private fun playSong(songUrl: String?) {
+        var player: MediaPlayer? = null
         try {
-            player.setDataSource("https:$songUrl")
-            player.prepareAsync()
+            player = MediaPlayer.create(this, Uri.parse(songUrl))
+
+            player.setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                    .build()
+            )
             player.start()
+
         } catch (e: IOException) {
+            player?.release()
             Toast.makeText(this, e.stackTrace.toString(), Toast.LENGTH_SHORT).show()
         }
     }
