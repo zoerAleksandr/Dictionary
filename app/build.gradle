@@ -68,4 +68,12 @@ dependencies {
 
     // FragmentKTX
     implementation 'androidx.fragment:fragment-ktx:1.4.1'
+
+    // Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    // Logging Retrofit
+    implementation "com.squareup.okhttp3:logging-interceptor:3.12.1"
 }

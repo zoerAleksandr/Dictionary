@@ -1,5 +1,7 @@
 package com.example.dictionary.domain.repository
 
-interface IRepository {
-    fun getData(text: String)
+import io.reactivex.rxjava3.core.Observable
+
+interface IRepository<T> {
+    fun getData(text: String): Observable<T>
 }

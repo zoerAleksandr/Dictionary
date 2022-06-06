@@ -1,6 +1,10 @@
 package com.example.dictionary.domain.entity
 
+import com.google.gson.annotations.SerializedName
+
 data class Meanings(
+    @field:SerializedName("translation")
     val translation: Translation?,
-    val imageUrl: String?
+    @field:SerializedName("previewUrl")
+    val previewUrl: String?
 )
