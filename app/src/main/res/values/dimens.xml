@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_main">8dp</dimen>
+
+    // For item
+    <dimen name="size_item_image_view">100dp</dimen>
+    <dimen name="size_sound_button">36dp</dimen>
+    <dimen name="padding_root">8dp</dimen>
+    <dimen name="margin_answer_items">4dp</dimen>
+</resources>
