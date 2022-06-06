@@ -6,5 +6,9 @@ data class Meanings(
     @field:SerializedName("translation")
     val translation: Translation?,
     @field:SerializedName("previewUrl")
-    val previewUrl: String?
+    val previewUrl: String?,
+    @field:SerializedName("transcription")
+    val transcription: String?,
+    @field:SerializedName("soundUrl")
+    val soundUrl: String?
 )

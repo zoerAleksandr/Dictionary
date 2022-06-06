@@ -1,29 +1,45 @@
 package com.example.dictionary.view
 
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.dictionary.R
 import com.example.dictionary.data.InteractorImpl
 import com.example.dictionary.data.PresenterImpl
 import com.example.dictionary.databinding.ActivityMainBinding
 import org.koin.core.component.KoinComponent
+import java.io.IOException
 
 class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     private val binding: ActivityMainBinding by viewBinding()
     private val isOnline = true
     private val interactor = InteractorImpl()
     private val presenter = PresenterImpl(interactor)
+    private val player = MediaPlayer()
+    private val adapter by lazy {
+        MainAdapter {
+            playSong(it?.soundUrl)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         binding.inputEditText.addTextChangedListener {
-            presenter.getData(it.toString(), isOnline)
+            if (!it.isNullOrBlank()) {
+                presenter.getData(it.toString(), isOnline)
+            } else {
+                adapter.setData(null)
+            }
         }
+        binding.meaningsRecyclerView.layoutManager = LinearLayoutManager(this)
+        binding.meaningsRecyclerView.adapter = adapter
     }
 
     override fun onStart() {
@@ -39,17 +55,30 @@ class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Loading -> {
-                Log.d("Debug", "$appState")
-
+                binding.loadingLayout.visibility = View.VISIBLE
             }
             is AppState.Success -> {
-                Log.d("Debug", "${appState.data[0].meanings}")
-
+                binding.loadingLayout.visibility = View.GONE
+                if (appState.data.isNotEmpty()) {
+                    adapter.setData(appState.data[0].meanings)
+                } else {
+                    adapter.setData(null)
+                }
             }
             is AppState.Error -> {
-                Log.d("Debug", "$appState")
-
+                binding.loadingLayout.visibility = View.GONE
+                Toast.makeText(this, appState.throwable.message, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun playSong(songUrl: String?) {
+        try {
+            player.setDataSource("https:$songUrl")
+            player.prepareAsync()
+            player.start()
+        } catch (e: IOException) {
+            Toast.makeText(this, e.stackTrace.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 }
