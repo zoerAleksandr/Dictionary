@@ -6,5 +6,6 @@
     <dimen name="size_item_image_view">100dp</dimen>
     <dimen name="size_sound_button">36dp</dimen>
     <dimen name="padding_root">8dp</dimen>
-    <dimen name="margin_answer_items">4dp</dimen>
+    <dimen name="margin_between_items">4dp</dimen>
+    <dimen name="translate_text_size">24sp</dimen>
 </resources>

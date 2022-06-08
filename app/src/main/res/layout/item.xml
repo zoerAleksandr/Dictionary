@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/padding_root"
-    android:layout_marginTop="@dimen/margin_answer_items"
+    android:layout_marginTop="@dimen/margin_between_items"
     android:background="@color/gray_light"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/translate_text_view"
         app:layout_constraintEnd_toStartOf="@id/translate_image_view"
-        android:textSize="24sp"
+        android:textSize="@dimen/translate_text_size"
         tools:text="мужчина"/>
 
     <TextView

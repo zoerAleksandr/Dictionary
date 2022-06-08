@@ -1,5 +1,7 @@
 package com.example.dictionary.data.retrofit
 
+import android.util.Log
+import com.example.dictionary.BuildConfig
 import com.example.dictionary.domain.entity.Answer
 import com.google.gson.GsonBuilder
 import io.reactivex.rxjava3.core.Observable
@@ -18,13 +20,38 @@ class RetrofitImpl {
     }
 
     private fun createRetrofit(): Retrofit {
+        return if (BuildConfig.isDebug) {
+            createRetrofitWithLog()
+        } else {
+            createRetrofitWithOutLog()
+        }
+    }
+
+    private fun createRetrofitWithLog(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder().setLenient().create()
+                )
+            )
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .client(createClient())
             .build()
     }
+
+    private fun createRetrofitWithOutLog(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder().setLenient().create()
+                )
+            )
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .build()
+    }
+
 
     private fun createClient(): OkHttpClient {
         val loggingInterceptor =
