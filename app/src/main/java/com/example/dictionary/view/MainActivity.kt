@@ -11,17 +11,15 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.dictionary.R
-import com.example.dictionary.data.InteractorImpl
-import com.example.dictionary.data.PresenterImpl
 import com.example.dictionary.databinding.ActivityMainBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import java.io.IOException
 
 class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     private val binding: ActivityMainBinding by viewBinding()
     private val isOnline = true
-    private val interactor = InteractorImpl()
-    private val presenter = PresenterImpl(interactor)
+    private val viewModel: MainViewModelContract.MainViewModel by viewModel()
     private val adapter by lazy {
         MainAdapter {
             playSong(it?.soundUrl)
@@ -31,26 +29,18 @@ class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        viewModel.meaningsLiveData.observe(this) {
+            renderData(it)
+        }
         binding.inputEditText.addTextChangedListener {
             if (!it.isNullOrBlank()) {
-                presenter.getData(it.toString(), isOnline)
+                viewModel.getData(it.toString(), isOnline)
             } else {
                 adapter.setData(null)
             }
         }
         binding.meaningsRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.meaningsRecyclerView.adapter = adapter
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.attach(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.detach(this)
     }
 
     override fun renderData(appState: AppState) {
