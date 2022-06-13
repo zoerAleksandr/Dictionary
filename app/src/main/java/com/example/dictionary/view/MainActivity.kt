@@ -18,7 +18,7 @@ import java.io.IOException
 
 class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     private val binding: ActivityMainBinding by viewBinding()
-    private val isOnline = true
+    private val isOnline = false
     private val viewModel: MainViewModelContract.MainViewModel by viewModel()
     private val adapter by lazy {
         MainAdapter {

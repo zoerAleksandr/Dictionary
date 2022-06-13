@@ -1,6 +1,5 @@
 package com.example.dictionary.data.retrofit
 
-import android.util.Log
 import com.example.dictionary.BuildConfig
 import com.example.dictionary.domain.entity.Answer
 import com.google.gson.GsonBuilder
