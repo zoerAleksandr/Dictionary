@@ -4,6 +4,7 @@ import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,6 +33,10 @@ class MainActivity : AppCompatActivity(), Contract, KoinComponent {
         viewModel.meaningsLiveData.observe(this) {
             renderData(it)
         }
+        viewModel.getQuery(QUERY)?.let { query ->
+            binding.inputEditText.text = SpannableStringBuilder(query)
+        }
+
         binding.inputEditText.addTextChangedListener {
             if (!it.isNullOrBlank()) {
                 viewModel.getData(it.toString(), isOnline)

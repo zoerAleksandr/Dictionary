@@ -1,5 +1,6 @@
 package com.example.dictionary.di
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.room.Room
 import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.retrofit.RetrofitImpl
@@ -25,5 +26,5 @@ val module = module {
     }
 
     single { get<AnswerDataBase>().answerDao() }
-    viewModel<MainViewModelContract.MainViewModel> { MainViewModel() }
+    viewModel<MainViewModelContract.MainViewModel> { MainViewModel(SavedStateHandle()) }
 }

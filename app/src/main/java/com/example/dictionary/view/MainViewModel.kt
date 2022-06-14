@@ -1,6 +1,7 @@
 package com.example.dictionary.view
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.room.RepositoryRoomImpl
 import com.example.dictionary.domain.entity.Answer
@@ -12,7 +13,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class MainViewModel :
+const val QUERY = "query"
+
+class MainViewModel(private val savedStateHandle: SavedStateHandle) :
     MainViewModelContract.MainViewModel(), KoinComponent {
     private val repoRemote: RepositoryRetrofitImpl by inject()
     private val repoLocal: RepositoryRoomImpl by inject()
@@ -21,6 +24,7 @@ class MainViewModel :
         MutableLiveData<AppState>()
 
     override fun getData(text: String, isOnline: Boolean) {
+        setQuery(text)
         if (isOnline) {
             getDataFromRemote(text)
 
@@ -79,6 +83,14 @@ class MainViewModel :
                 }
                 .subscribe()
         )
+    }
+
+    override fun getQuery(key: String): String? {
+        return savedStateHandle.get<String>(key)
+    }
+
+    private fun setQuery(query: String) {
+        savedStateHandle.set(QUERY, query)
     }
 
     override fun onCleared() {
