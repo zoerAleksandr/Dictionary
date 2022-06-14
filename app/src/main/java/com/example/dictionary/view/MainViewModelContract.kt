@@ -11,6 +11,6 @@ interface MainViewModelContract {
         abstract fun getDataFromRemote(text: String)
         abstract fun getDataFromLocal(text: String)
         abstract fun saveAnswerToLocal(answer: Answer)
-        abstract fun getQuery(key: String): String?
+        abstract fun getQuerySavedState(key: String): String?
     }
 }

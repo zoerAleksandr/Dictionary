@@ -6,4 +6,6 @@ sealed class AppState {
     data class Success(val data: List<Answer>) : AppState()
     data class Loading(val loading: Boolean) : AppState()
     data class Error(val throwable: Throwable) : AppState()
+    object IsOnline : AppState()
+    object IsOffline : AppState()
 }

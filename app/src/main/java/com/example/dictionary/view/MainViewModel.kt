@@ -24,12 +24,13 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         MutableLiveData<AppState>()
 
     override fun getData(text: String, isOnline: Boolean) {
-        setQuery(text)
+        setQuerySavedState(text)
         if (isOnline) {
             getDataFromRemote(text)
-
+            meaningsLiveData.postValue(AppState.IsOnline)
         } else {
             getDataFromLocal(text)
+            meaningsLiveData.postValue(AppState.IsOffline)
         }
     }
 
@@ -85,11 +86,11 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         )
     }
 
-    override fun getQuery(key: String): String? {
+    override fun getQuerySavedState(key: String): String? {
         return savedStateHandle.get<String>(key)
     }
 
-    private fun setQuery(query: String) {
+    private fun setQuerySavedState(query: String) {
         savedStateHandle.set(QUERY, query)
     }
 

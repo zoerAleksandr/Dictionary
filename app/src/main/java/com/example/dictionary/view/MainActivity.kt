@@ -12,14 +12,16 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.dictionary.R
+import com.example.dictionary.data.retrofit.NetworkConnect
 import com.example.dictionary.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.component.KoinComponent
 import java.io.IOException
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity(), Contract, KoinComponent {
     private val binding: ActivityMainBinding by viewBinding()
-    private val isOnline = false
+    private var isOnline by Delegates.notNull<Boolean>()
     private val viewModel: MainViewModelContract.MainViewModel by viewModel()
     private val adapter by lazy {
         MainAdapter {
@@ -33,11 +35,12 @@ class MainActivity : AppCompatActivity(), Contract, KoinComponent {
         viewModel.meaningsLiveData.observe(this) {
             renderData(it)
         }
-        viewModel.getQuery(QUERY)?.let { query ->
+        viewModel.getQuerySavedState(QUERY)?.let { query ->
             binding.inputEditText.text = SpannableStringBuilder(query)
         }
 
         binding.inputEditText.addTextChangedListener {
+            isOnline = NetworkConnect.checkConnectivity(this)
             if (!it.isNullOrBlank()) {
                 viewModel.getData(it.toString(), isOnline)
             } else {
@@ -64,6 +67,13 @@ class MainActivity : AppCompatActivity(), Contract, KoinComponent {
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
                 Toast.makeText(this, appState.throwable.message, Toast.LENGTH_SHORT).show()
+            }
+            is AppState.IsOnline -> {
+                binding.offlineTextView.visibility = View.GONE
+            }
+
+            is AppState.IsOffline -> {
+                binding.offlineTextView.visibility = View.VISIBLE
             }
         }
     }
