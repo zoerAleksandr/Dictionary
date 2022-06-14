@@ -1,11 +1,17 @@
 package com.example.dictionary.data.room
 
+import com.example.dictionary.data.room.converter_entity.toAnswerDTO
 import com.example.dictionary.domain.entity.Answer
 import com.example.dictionary.domain.repository.IRepository
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
-class RepositoryRoomImpl : IRepository<List<Answer>> {
+class RepositoryRoomImpl(private val dao: AnswerDAO) : IRepository<List<Answer>> {
     override fun getData(text: String): Observable<List<Answer>> {
-        TODO("Not yet implemented")
+        return dao.getMeaningsListByAnswer(text)
+    }
+
+    fun saveAnswerToLocal(answer: Answer): Single<Long> {
+        return dao.saveAnswer(toAnswerDTO(answer))
     }
 }

@@ -5,22 +5,32 @@ plugins {
 }
 
 android {
-    compileSdk 31
+    signingConfigs {
+        release {
+        }
+    }
+    compileSdk 32
 
     defaultConfig {
         applicationId "com.example.dictionary"
         minSdk 23
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "Boolean", "isDebug", "false"
+        }
+
+        debug {
+            buildConfigField "Boolean", "isDebug", "true"
         }
     }
 
@@ -52,6 +62,7 @@ dependencies {
 
     // Room
     implementation 'androidx.room:room-runtime:2.4.2'
+    implementation 'androidx.room:room-rxjava3:2.4.2'
     kapt 'androidx.room:room-compiler:2.4.2'
 
     // Gson
