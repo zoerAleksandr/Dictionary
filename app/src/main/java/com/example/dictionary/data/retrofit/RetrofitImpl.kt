@@ -3,19 +3,18 @@ package com.example.dictionary.data.retrofit
 import com.example.dictionary.BuildConfig
 import com.example.dictionary.domain.entity.Answer
 import com.google.gson.GsonBuilder
-import io.reactivex.rxjava3.core.Observable
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://dictionary.skyeng.ru/api/public/v1/"
 
 class RetrofitImpl {
 
-    fun getData(word: String): Observable<List<Answer>> {
-        return createRetrofit().create(RetrofitClient::class.java).search(word)
+    suspend fun getData(word: String): List<Answer> {
+        return createRetrofit().create(RetrofitClient::class.java).searchAsync(word).await()
     }
 
     private fun createRetrofit(): Retrofit {
@@ -34,7 +33,7 @@ class RetrofitImpl {
                     GsonBuilder().setLenient().create()
                 )
             )
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(createClient())
             .build()
     }
@@ -47,10 +46,9 @@ class RetrofitImpl {
                     GsonBuilder().setLenient().create()
                 )
             )
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
     }
-
 
     private fun createClient(): OkHttpClient {
         val loggingInterceptor =
