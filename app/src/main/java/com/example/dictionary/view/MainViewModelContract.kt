@@ -24,13 +24,13 @@ interface MainViewModelContract {
 
         abstract fun handlerError(error: Throwable)
 
-        protected fun cancelJob() {
-            viewModelScope.coroutineContext.cancelChildren()
+        protected fun cancelJob(job: Job) {
+            job.cancel()
         }
 
         override fun onCleared() {
             super.onCleared()
-            cancelJob()
+            viewModelScope.coroutineContext.cancelChildren()
         }
     }
 }
