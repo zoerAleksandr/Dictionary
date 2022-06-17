@@ -22,7 +22,9 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         MutableLiveData<AppState>()
 
     override fun getData(text: String, isOnline: Boolean) {
-        cancelJob()
+        jobRemote?.let {
+            cancelJob(it)
+        }
         setQuerySavedState(text)
         if (isOnline) {
             getDataFromRemote(text)
