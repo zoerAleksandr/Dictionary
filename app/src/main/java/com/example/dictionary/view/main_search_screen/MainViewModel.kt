@@ -1,10 +1,11 @@
-package com.example.dictionary.view
+package com.example.dictionary.view.main_search_screen
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.room.RepositoryRoomImpl
 import com.example.dictionary.domain.entity.Answer
+import com.example.dictionary.view.AppState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent

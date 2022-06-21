@@ -1,4 +1,4 @@
-package com.example.dictionary.view
+package com.example.dictionary.view.main_search_screen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

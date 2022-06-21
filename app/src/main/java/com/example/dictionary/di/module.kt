@@ -6,8 +6,8 @@ import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.retrofit.RetrofitImpl
 import com.example.dictionary.data.room.AnswerDataBase
 import com.example.dictionary.data.room.RepositoryRoomImpl
-import com.example.dictionary.view.MainViewModel
-import com.example.dictionary.view.MainViewModelContract
+import com.example.dictionary.view.main_search_screen.MainViewModel
+import com.example.dictionary.view.main_search_screen.MainViewModelContract
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

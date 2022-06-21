@@ -1,4 +1,4 @@
-package com.example.dictionary.view
+package com.example.dictionary.view.main_search_screen
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
