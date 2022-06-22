@@ -21,6 +21,24 @@ class MainActivity : AppCompatActivity(), Contract {
                 .add(binding.container.id, MainSearchFragment())
                 .commitNow()
         }
+        binding.bottomNavigation.setOnItemSelectedListener { menu ->
+            when (menu.itemId) {
+                R.id.history -> {
+                    openFragment(FragmentTag.HISTORY)
+                    true
+                }
+                R.id.main_search -> {
+                    openFragment(FragmentTag.MAIN_SEARCH)
+                    true
+                }
+                R.id.favorite_list -> {
+                    openFragment(FragmentTag.FAVORITE_LIST)
+                    true
+                }
+                else -> false
+
+            }
+        }
     }
 
     override fun openFragment(fragment: FragmentTag) {
@@ -37,7 +55,7 @@ class MainActivity : AppCompatActivity(), Contract {
         }
     }
 
-    private fun getFragment(fragment: Fragment){
+    private fun getFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(binding.container.id, fragment)
             .addToBackStack(null)

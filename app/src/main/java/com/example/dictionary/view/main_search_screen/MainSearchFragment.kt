@@ -1,8 +1,5 @@
 package com.example.dictionary.view.main_search_screen
 
-import android.media.AudioAttributes
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.View
@@ -14,26 +11,33 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.dictionary.R
 import com.example.dictionary.data.retrofit.NetworkConnect
 import com.example.dictionary.databinding.FragmentMainSearchBinding
+import com.example.dictionary.playSong
 import com.example.dictionary.view.AppState
+import com.example.dictionary.view.NetworkState
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.IOException
 import kotlin.properties.Delegates
 
-class MainSearchFragment: Fragment(R.layout.fragment_main_search) {
+class MainSearchFragment : Fragment(R.layout.fragment_main_search) {
     private val binding: FragmentMainSearchBinding by viewBinding()
     private var isOnline by Delegates.notNull<Boolean>()
-    private val viewModel: MainViewModelContract.MainViewModel by viewModel()
+    private val viewModel: MainSearchViewModelContract.MainSearchViewModel by viewModel()
     private val adapter by lazy {
         MainAdapter {
-            playSong(it?.soundUrl)
+            playSong(requireContext(), it?.soundUrl)
         }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.meaningsLiveData.observe(viewLifecycleOwner) {
+        viewModel.liveData.observe(viewLifecycleOwner) {
             renderData(it)
         }
+
+        viewModel.networkLiveData.observe(viewLifecycleOwner) {
+            renderNetworkStatus(it)
+        }
+
         viewModel.getQuerySavedState(QUERY)?.let { query ->
             binding.inputEditText.text = SpannableStringBuilder(query)
         }
@@ -48,6 +52,18 @@ class MainSearchFragment: Fragment(R.layout.fragment_main_search) {
         }
         binding.meaningsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.meaningsRecyclerView.adapter = adapter
+    }
+
+    private fun renderNetworkStatus(networkState: NetworkState) {
+        when (networkState) {
+            is NetworkState.IsOnline -> {
+                binding.offlineTextView.visibility = View.GONE
+            }
+
+            is NetworkState.IsOffline -> {
+                binding.offlineTextView.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun renderData(appState: AppState) {
@@ -65,33 +81,9 @@ class MainSearchFragment: Fragment(R.layout.fragment_main_search) {
             }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE
-                Toast.makeText(requireContext(), appState.throwable.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), appState.throwable.message, Toast.LENGTH_SHORT)
+                    .show()
             }
-            is AppState.IsOnline -> {
-                binding.offlineTextView.visibility = View.GONE
-            }
-
-            is AppState.IsOffline -> {
-                binding.offlineTextView.visibility = View.VISIBLE
-            }
-        }
-    }
-
-    private fun playSong(songUrl: String?) {
-        var player: MediaPlayer? = null
-        try {
-            player = MediaPlayer.create(requireContext(), Uri.parse(songUrl))
-
-            player.setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-            )
-            player.start()
-
-        } catch (e: IOException) {
-            player?.release()
-            Toast.makeText(requireContext(), e.stackTrace.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 }

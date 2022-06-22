@@ -6,8 +6,10 @@ import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.retrofit.RetrofitImpl
 import com.example.dictionary.data.room.AnswerDataBase
 import com.example.dictionary.data.room.RepositoryRoomImpl
+import com.example.dictionary.view.history_screen.HistoryModelContract
+import com.example.dictionary.view.history_screen.HistoryViewModel
+import com.example.dictionary.view.main_search_screen.MainSearchViewModelContract
 import com.example.dictionary.view.main_search_screen.MainViewModel
-import com.example.dictionary.view.main_search_screen.MainViewModelContract
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -26,5 +28,6 @@ val module = module {
     }
 
     single { get<AnswerDataBase>().answerDao() }
-    viewModel<MainViewModelContract.MainViewModel> { MainViewModel(SavedStateHandle()) }
+    viewModel<MainSearchViewModelContract.MainSearchViewModel> { MainViewModel(SavedStateHandle()) }
+    viewModel<HistoryModelContract.BasicViewModel> { HistoryViewModel(SavedStateHandle()) }
 }

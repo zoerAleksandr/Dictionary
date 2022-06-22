@@ -4,15 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.dictionary.domain.entity.Answer
 import com.example.dictionary.view.AppState
+import com.example.dictionary.view.NetworkState
 import kotlinx.coroutines.*
 
-interface MainViewModelContract {
-    abstract class MainViewModel : ViewModel() {
-        abstract val meaningsLiveData: LiveData<AppState>
+interface MainSearchViewModelContract {
+    abstract class MainSearchViewModel : ViewModel() {
+        abstract val liveData: LiveData<AppState>
+        abstract val networkLiveData: LiveData<NetworkState>
         abstract fun getData(text: String, isOnline: Boolean)
         abstract fun getDataFromRemote(text: String)
-        abstract fun getDataFromLocal(text: String)
         abstract fun saveAnswerToLocal(answer: Answer)
+        abstract fun getDataFromLocal(text: String)
         abstract fun getQuerySavedState(key: String): String?
 
         protected val viewModelScope = CoroutineScope(
@@ -22,7 +24,6 @@ interface MainViewModelContract {
                         handlerError(throwable)
                     }
         )
-
         abstract fun handlerError(error: Throwable)
 
         protected fun cancelJob(job: Job) {

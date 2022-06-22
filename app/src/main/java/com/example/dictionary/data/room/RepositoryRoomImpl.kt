@@ -5,6 +5,10 @@ import com.example.dictionary.domain.entity.Answer
 import com.example.dictionary.domain.repository.IRepository
 
 class RepositoryRoomImpl(private val dao: AnswerDAO) : IRepository<List<Answer>> {
+    fun getAllData(): List<Answer>{
+        return dao.getAllData()
+    }
+
     override suspend fun getData(text: String): List<Answer> {
         return dao.getMeaningsListByAnswerAsync(text)
     }

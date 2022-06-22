@@ -5,4 +5,5 @@
     <string name="menu_main_search">Поиск</string>
     <string name="menu_favorite_list">Избранное</string>
     <string name="menu_history">История</string>
+    <string name="hint_input_history">Поиск по истории</string>
 </resources>

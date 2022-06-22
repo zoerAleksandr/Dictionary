@@ -6,6 +6,7 @@ import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.room.RepositoryRoomImpl
 import com.example.dictionary.domain.entity.Answer
 import com.example.dictionary.view.AppState
+import com.example.dictionary.view.NetworkState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -14,13 +15,13 @@ import org.koin.core.component.inject
 const val QUERY = "query"
 
 class MainViewModel(private val savedStateHandle: SavedStateHandle) :
-    MainViewModelContract.MainViewModel(), KoinComponent {
+    MainSearchViewModelContract.MainSearchViewModel(), KoinComponent {
     private val repoRemote: RepositoryRetrofitImpl by inject()
     private val repoLocal: RepositoryRoomImpl by inject()
     private var jobRemote: Job? = null
 
-    override val meaningsLiveData: MutableLiveData<AppState> =
-        MutableLiveData<AppState>()
+    override val liveData: MutableLiveData<AppState> = MutableLiveData()
+    override val networkLiveData: MutableLiveData<NetworkState> = MutableLiveData()
 
     override fun getData(text: String, isOnline: Boolean) {
         jobRemote?.let {
@@ -29,10 +30,10 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         setQuerySavedState(text)
         if (isOnline) {
             getDataFromRemote(text)
-            meaningsLiveData.postValue(AppState.IsOnline)
+            networkLiveData.postValue(NetworkState.IsOnline)
         } else {
             getDataFromLocal(text)
-            meaningsLiveData.postValue(AppState.IsOffline)
+            networkLiveData.postValue(NetworkState.IsOffline)
         }
     }
 
@@ -40,7 +41,7 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         jobRemote?.cancel()
         jobRemote = viewModelScope.launch {
             val answer = repoRemote.getData(text)
-            meaningsLiveData.postValue(
+            liveData.postValue(
                 AppState.Success(answer)
             )
             saveAnswerToLocal(answer[0])
@@ -49,7 +50,7 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
 
     override fun getDataFromLocal(text: String) {
         viewModelScope.launch {
-            meaningsLiveData.postValue(
+            liveData.postValue(
                 AppState.Success(repoLocal.getData(text))
             )
         }
@@ -66,7 +67,7 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
     }
 
     override fun handlerError(error: Throwable) {
-        meaningsLiveData.postValue(AppState.Error(error))
+        liveData.postValue(AppState.Error(error))
     }
 
     private fun setQuerySavedState(query: String) {
