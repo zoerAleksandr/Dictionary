@@ -4,13 +4,13 @@ import com.example.dictionary.data.room.converter_entity.toAnswerDTO
 import com.example.dictionary.domain.entity.Answer
 import com.example.dictionary.domain.repository.IRepository
 
-class RepositoryRoomImpl(private val dao: AnswerDAO) : IRepository<List<Answer>> {
-    fun getAllData(): List<Answer>{
+class RepositoryRoomImpl(private val dao: AnswerDAO) : IRepository<Answer> {
+    fun getAllData(): Answer{
         return dao.getAllData()
     }
 
-    override suspend fun getData(text: String): List<Answer> {
-        return dao.getMeaningsListByAnswerAsync(text)
+    override suspend fun getData(text: String): Answer {
+        return dao.getAnswerByTextAsync(text)
     }
 
     fun saveAnswerToLocal(answer: Answer): Long {

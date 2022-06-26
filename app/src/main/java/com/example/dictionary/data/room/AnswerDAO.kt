@@ -10,10 +10,10 @@ import com.example.dictionary.domain.entity.Answer
 @Dao
 interface AnswerDAO {
     @Query("SELECT * FROM answer")
-    fun getAllData(): List<Answer>
+    fun getAllData(): Answer
 
     @Query("SELECT * FROM answer WHERE text LIKE '%' || :answerText || '%'")
-    fun getMeaningsListByAnswerAsync(answerText: String): List<Answer>
+    fun getAnswerByTextAsync(answerText: String): Answer
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun saveAnswerAsync(answer: AnswerDTO): Long

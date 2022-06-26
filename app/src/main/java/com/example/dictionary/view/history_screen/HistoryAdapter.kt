@@ -10,12 +10,10 @@ import com.example.dictionary.domain.entity.Meanings
 class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
     private val list = mutableListOf<Meanings>()
 
-    fun setData(data: List<Answer>) {
+    fun setData(data: Answer) {
         list.clear()
-        for (answer in data) {
-            answer.meanings?.get(0)?.let {
-                list.add(it)
-            }
+        for (meanings in data.meanings) {
+            list.add(meanings)
         }
         notifyDataSetChanged()
     }

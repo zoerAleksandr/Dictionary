@@ -9,5 +9,5 @@ data class AnswerDTO(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     val text: String,
-    val meanings: List<Meanings>?
+    val meanings: List<Meanings>
 )

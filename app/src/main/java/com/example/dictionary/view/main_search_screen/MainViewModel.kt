@@ -42,7 +42,7 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         jobRemote = viewModelScope.launch {
             val answer = repoRemote.getData(text)
             liveData.postValue(
-                AppState.Success(answer)
+                AppState.Success(answer[0])
             )
             saveAnswerToLocal(answer[0])
         }

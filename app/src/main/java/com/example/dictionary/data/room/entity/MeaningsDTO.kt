@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.dictionary.domain.entity.Translation
 
-@Entity
+@Entity(tableName = "meanings")
 data class MeaningsDTO(
     @PrimaryKey(autoGenerate = true)
     val id: Long,
