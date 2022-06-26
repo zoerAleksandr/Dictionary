@@ -4,7 +4,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.room.RepositoryRoomImpl
-import com.example.dictionary.domain.entity.Answer
+import com.example.dictionary.data.room.converter_entity.toAnswerDTO
+import com.example.dictionary.data.room.converter_entity.toListMeaningsDTO
+import com.example.dictionary.data.room.entity.AnswerWithMeanings
 import com.example.dictionary.view.AppState
 import com.example.dictionary.view.NetworkState
 import kotlinx.coroutines.Job
@@ -41,10 +43,14 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         jobRemote?.cancel()
         jobRemote = viewModelScope.launch {
             val answer = repoRemote.getData(text)
-            liveData.postValue(
-                AppState.Success(answer[0])
+            val answerWithMeanings = AnswerWithMeanings(
+                answerDTO = toAnswerDTO(answer[0]),
+                listMeanings = toListMeaningsDTO(answer[0].meanings, answer[0].text)
             )
-            saveAnswerToLocal(answer[0])
+            liveData.postValue(
+                AppState.Success(answer[0].meanings)
+            )
+            saveAnswerToLocal(answerWithMeanings)
         }
     }
 
@@ -56,9 +62,9 @@ class MainViewModel(private val savedStateHandle: SavedStateHandle) :
         }
     }
 
-    override fun saveAnswerToLocal(answer: Answer) {
+    override fun saveAnswerToLocal(answer: AnswerWithMeanings) {
         viewModelScope.launch {
-            repoLocal.saveAnswerToLocal(answer)
+            repoLocal.insertAnswerWithMeanings(answer)
         }
     }
 

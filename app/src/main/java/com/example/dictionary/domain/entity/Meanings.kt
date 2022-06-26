@@ -9,6 +9,7 @@ private const val SERIALIZED_SOUND_URL = "soundUrl"
 
 data class Meanings(
     val id: Long,
+    val answerText: String,
     @field:SerializedName(SERIALIZED_TRANSLATION)
     val translation: Translation?,
     @field:SerializedName(SERIALIZED_PREVIEW_URL)

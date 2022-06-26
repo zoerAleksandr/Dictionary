@@ -4,17 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.dictionary.databinding.ItemHistoryBinding
-import com.example.dictionary.domain.entity.Answer
 import com.example.dictionary.domain.entity.Meanings
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
     private val list = mutableListOf<Meanings>()
 
-    fun setData(data: Answer) {
+    fun setData(data: List<Meanings>) {
         list.clear()
-        for (meanings in data.meanings) {
-            list.add(meanings)
-        }
+        list.addAll(data)
         notifyDataSetChanged()
     }
 

@@ -14,25 +14,26 @@ class HistoryViewModel(private val savedStateHandle: SavedStateHandle) :
     HistoryModelContract.BasicViewModel() {
 
     private val repo: RepositoryRoomImpl by inject(RepositoryRoomImpl::class.java)
-    private var job: Job? = null
+    private var jobAllData: Job? = null
+    private var jobSearchMeanings: Job? = null
     override val state: MutableStateFlow<AppState> =
         MutableStateFlow(AppState.Loading(true))
 
     override fun getAllData() {
-        job?.let {
+        jobAllData?.let {
             cancelJob(it)
         }
-        job = viewModelScope.launch {
+        jobAllData = viewModelScope.launch {
             state.value = AppState.Success(repo.getAllData())
         }
     }
 
     override fun getDataFromLocal(text: String) {
-        job?.let {
+        jobSearchMeanings?.let {
             cancelJob(it)
         }
         setQuerySavedState(text)
-        job = viewModelScope.launch {
+        jobSearchMeanings = viewModelScope.launch {
             state.value = AppState.Success(repo.getData(text))
         }
     }

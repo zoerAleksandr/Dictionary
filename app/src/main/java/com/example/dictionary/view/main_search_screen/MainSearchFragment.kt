@@ -73,7 +73,7 @@ class MainSearchFragment : Fragment(R.layout.fragment_main_search) {
             }
             is AppState.Success -> {
                 binding.loadingLayout.visibility = View.GONE
-                adapter.setData(appState.data.meanings)
+                adapter.setData(appState.data)
             }
             is AppState.Error -> {
                 binding.loadingLayout.visibility = View.GONE

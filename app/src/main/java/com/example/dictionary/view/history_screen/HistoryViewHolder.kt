@@ -8,6 +8,7 @@ import com.example.dictionary.domain.entity.Meanings
 class HistoryViewHolder(private val binding: ItemHistoryBinding) :
     RecyclerView.ViewHolder(binding.root) {
         fun bind(meanings: Meanings){
+            binding.answerTextTextView.text = meanings.answerText
             binding.translateTextView.text = meanings.translation?.translation.toString()
             binding.transcriptionTextView.text = meanings.transcription.toString()
             binding.translateImageView.load("https:${meanings.previewUrl}")

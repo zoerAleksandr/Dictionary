@@ -9,11 +9,22 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <TextView
+        android:id="@+id/answer_text_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/translate_text_size"
+        android:textStyle="italic"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/translate_image_view"
+        tools:text="man"/>
+
+    <TextView
         android:id="@+id/translate_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/answer_text_text_view"
         app:layout_constraintBottom_toTopOf="@id/translate_text_view"
         app:layout_constraintEnd_toStartOf="@id/translate_image_view"
         android:textSize="@dimen/translate_text_size"
