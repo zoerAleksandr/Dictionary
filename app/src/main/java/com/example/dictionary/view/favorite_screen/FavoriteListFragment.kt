@@ -97,7 +97,7 @@ class FavoriteListFragment : Fragment(R.layout.fragment_favorite) {
         }
         lifecycleScope.launchWhenStarted {
             favoriteAdapter.changeIconFavorite(meanings)
-            delay(resources.getDimension(R.dimen.delay_before_deleted).toLong())
+            delay(700)
             favoriteAdapter.removeMeanings(meanings)
             viewModel.updateMeanings(meanings)
             Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()

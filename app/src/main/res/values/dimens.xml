@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_main">8dp</dimen>
-    <dimen name="delay_before_deleted">700</dimen>
 
     // For item
     <dimen name="size_item_image_view">100dp</dimen>
