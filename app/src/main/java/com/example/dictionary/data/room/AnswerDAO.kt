@@ -31,4 +31,14 @@ interface AnswerDAO {
 
     @Query("SELECT * FROM meanings WHERE answerText LIKE '%' || :answerText || '%'")
     fun getMeaningsByAnswerText(answerText: String): List<Meanings>
+
+    @Query("SELECT * FROM meanings WHERE answerText LIKE '%' || :answerText || '%'" +
+            " AND isFavorite LIKE :isFavorite")
+    fun getFavoriteMeaningsByAnswerText(answerText: String, isFavorite: Int): List<Meanings>
+
+    @Query("SELECT * FROM meanings WHERE isFavorite LIKE :isFavorite")
+    fun getAllFavoritesMeanings(isFavorite: Int): List<Meanings>
+
+    @Update(entity = MeaningsDTO::class)
+    fun updateMeanings(meanings: Meanings)
 }

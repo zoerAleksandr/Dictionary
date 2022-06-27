@@ -27,5 +27,6 @@ data class MeaningsDTO(
     val translation: Translation?,
     val previewUrl: String?,
     val transcription: String?,
-    val soundUrl: String?
+    val soundUrl: String?,
+    var isFavorite: Int
 )

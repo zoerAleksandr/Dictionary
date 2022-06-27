@@ -1,34 +1,29 @@
-package com.example.dictionary.view.history_screen
+package com.example.dictionary.view.favorite_screen
 
 import androidx.lifecycle.SavedStateHandle
 import com.example.dictionary.data.room.RepositoryRoomImpl
 import com.example.dictionary.domain.entity.Meanings
 import com.example.dictionary.view.AppState
+import com.example.dictionary.view.history_screen.BasicModelContract
+import com.example.dictionary.view.history_screen.HISTORY_QUERY
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import org.koin.java.KoinJavaComponent.inject
+import org.koin.java.KoinJavaComponent
 
-const val HISTORY_QUERY = "historyQuery"
+const val FAVORITE_QUERY = "favoriteQuery"
+const val IS_NOT_FAVORITE = 0
+const val IS_FAVORITE = 1
 
-class HistoryViewModel(private val savedStateHandle: SavedStateHandle) :
+class FavoriteViewModel(private val savedStateHandle: SavedStateHandle) :
     BasicModelContract.BasicViewModel() {
-
-    private val repo: RepositoryRoomImpl by inject(RepositoryRoomImpl::class.java)
+    private val repo: RepositoryRoomImpl by KoinJavaComponent.inject(RepositoryRoomImpl::class.java)
     private var jobAllData: Job? = null
     private var jobSearchMeanings: Job? = null
     private var jobUpdateMeanings: Job? = null
     override val state: MutableStateFlow<AppState> =
         MutableStateFlow(AppState.Empty)
 
-    override fun getAllData() {
-        jobAllData?.let {
-            cancelJob(it)
-        }
-        jobAllData = viewModelScope.launch {
-            state.value = AppState.Success(repo.getAllData())
-        }
-    }
 
     override fun getDataFromLocal(text: String) {
         jobSearchMeanings?.let {
@@ -36,7 +31,25 @@ class HistoryViewModel(private val savedStateHandle: SavedStateHandle) :
         }
         setQuerySavedState(text)
         jobSearchMeanings = viewModelScope.launch {
-            val result = repo.getData(text)
+            val result = repo.getFavoriteMeaningsByAnswerText(text)
+            if (result.isEmpty()) {
+                state.value = AppState.Empty
+            } else {
+                state.value = AppState.Success(result)
+            }
+        }
+    }
+
+    override fun getQuerySavedState(key: String): String? {
+        return savedStateHandle.get<String>(key)
+    }
+
+    override fun getAllData() {
+        jobAllData?.let {
+            cancelJob(it)
+        }
+        jobAllData = viewModelScope.launch {
+            val result = repo.getAllFavoritesMeanings(IS_FAVORITE)
             if (result.isEmpty()) {
                 state.value = AppState.Empty
             } else {
@@ -56,10 +69,6 @@ class HistoryViewModel(private val savedStateHandle: SavedStateHandle) :
 
     private fun setQuerySavedState(query: String) {
         savedStateHandle.set(HISTORY_QUERY, query)
-    }
-
-    override fun getQuerySavedState(key: String): String? {
-        return savedStateHandle.get<String>(key)
     }
 
     override fun handlerError(error: Throwable) {

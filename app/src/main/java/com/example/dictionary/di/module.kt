@@ -6,7 +6,7 @@ import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.retrofit.RetrofitImpl
 import com.example.dictionary.data.room.AnswerDataBase
 import com.example.dictionary.data.room.RepositoryRoomImpl
-import com.example.dictionary.view.history_screen.HistoryModelContract
+import com.example.dictionary.view.history_screen.BasicModelContract
 import com.example.dictionary.view.history_screen.HistoryViewModel
 import com.example.dictionary.view.main_search_screen.MainSearchViewModelContract
 import com.example.dictionary.view.main_search_screen.MainViewModel
@@ -26,8 +26,7 @@ val module = module {
             DB_NAME
         ).build()
     }
-
     single { get<AnswerDataBase>().answerDao() }
     viewModel<MainSearchViewModelContract.MainSearchViewModel> { MainViewModel(SavedStateHandle()) }
-    viewModel<HistoryModelContract.BasicViewModel> { HistoryViewModel(SavedStateHandle()) }
+    viewModel<BasicModelContract.BasicViewModel> { HistoryViewModel(SavedStateHandle()) }
 }

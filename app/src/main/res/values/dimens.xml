@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="margin_main">8dp</dimen>
+    <dimen name="delay_before_deleted">700</dimen>
 
     // For item
     <dimen name="size_item_image_view">100dp</dimen>
@@ -8,4 +9,6 @@
     <dimen name="padding_root">8dp</dimen>
     <dimen name="margin_between_items">4dp</dimen>
     <dimen name="translate_text_size">24sp</dimen>
+    <dimen name="item_corners">8dp</dimen>
+
 </resources>

@@ -10,7 +10,8 @@ fun toMeaningsDTO(meanings: Meanings, answerText: String): MeaningsDTO {
         translation = meanings.translation,
         previewUrl = meanings.previewUrl,
         transcription = meanings.transcription,
-        soundUrl = meanings.soundUrl
+        soundUrl = meanings.soundUrl,
+        isFavorite = meanings.isFavorite
     )
 }
 

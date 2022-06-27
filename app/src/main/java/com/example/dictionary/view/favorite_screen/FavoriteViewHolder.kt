@@ -1,4 +1,4 @@
-package com.example.dictionary.view.history_screen
+package com.example.dictionary.view.favorite_screen
 
 import android.content.res.Resources
 import androidx.recyclerview.widget.RecyclerView
@@ -6,10 +6,8 @@ import coil.load
 import com.example.dictionary.R
 import com.example.dictionary.databinding.ItemHistoryBinding
 import com.example.dictionary.domain.entity.Meanings
-import com.example.dictionary.view.favorite_screen.IS_FAVORITE
-import com.example.dictionary.view.favorite_screen.IS_NOT_FAVORITE
 
-class HistoryViewHolder(
+class FavoriteViewHolder(
     private val binding: ItemHistoryBinding,
     private val resources: Resources
 ) :

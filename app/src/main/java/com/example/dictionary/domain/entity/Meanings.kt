@@ -17,5 +17,6 @@ data class Meanings(
     @field:SerializedName(SERIALIZED_TRANSCRIPTION)
     val transcription: String?,
     @field:SerializedName(SERIALIZED_SOUND_URL)
-    val soundUrl: String?
+    val soundUrl: String?,
+    var isFavorite: Int
 )

@@ -1,4 +1,4 @@
-package com.example.dictionary.view.history_screen
+package com.example.dictionary.view.favorite_screen
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.dictionary.databinding.ItemHistoryBinding
 import com.example.dictionary.domain.entity.Meanings
 
-class HistoryAdapter(
-    private val favoriteListener: (Meanings) -> Unit
-) : RecyclerView.Adapter<HistoryViewHolder>() {
+class FavoriteAdapter(private val favoriteListener: (Meanings) -> Unit) :
+    RecyclerView.Adapter<FavoriteViewHolder>() {
     private val list = mutableListOf<Meanings>()
 
     fun setData(data: List<Meanings>) {
@@ -17,22 +16,28 @@ class HistoryAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateMeanings(meanings: Meanings){
+    fun removeMeanings(meanings: Meanings) {
         val index = list.indexOf(meanings)
-        list[index] = meanings
-        notifyItemChanged(index, meanings)
+        list.removeAt(index)
+        notifyItemRemoved(index)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
+    fun changeIconFavorite(meanings: Meanings){
+        val index = list.indexOf(meanings)
+        notifyItemChanged(index)
+    }
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val binding = ItemHistoryBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return HistoryViewHolder(binding, parent.resources)
+        return FavoriteViewHolder(binding, parent.resources)
     }
 
-    override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         holder.bind(list[position], favoriteListener)
     }
 
