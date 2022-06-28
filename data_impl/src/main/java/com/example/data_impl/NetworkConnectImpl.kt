@@ -1,9 +1,10 @@
-package com.example.dictionary.data.retrofit
+package com.example.data_impl
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.example.data_api.NetworkConnectContract
 
-object NetworkConnect {
+object NetworkConnectImpl : NetworkConnectContract {
     private const val NETWORK_STATUS_NOT_CONNECTED = 0
     private const val NETWORK_STATUS_WIFI = 1
     private const val NETWORK_STATUS_MOBILE = 2
@@ -40,7 +41,7 @@ object NetworkConnect {
         return status
     }
 
-    fun checkConnectivity(context: Context): Boolean {
+    override fun checkConnectivity(context: Context): Boolean {
         val status = connectivityStatusString(context)
         return status == NETWORK_STATUS_WIFI || status == NETWORK_STATUS_MOBILE
     }

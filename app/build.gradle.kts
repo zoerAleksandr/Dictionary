@@ -51,6 +51,8 @@ android {
 }
 
 dependencies {
+    implementation(project(DATA_CORE_MODULE))
+
     implementation(CORE_KTX_DEP)
     implementation(APP_COMPAT_DEP)
     implementation(MATERIAL_DEP)
