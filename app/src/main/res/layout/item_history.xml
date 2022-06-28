@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_between_items"
     android:layout_marginHorizontal="@dimen/margin_between_items"
-    android:background="@color/gray_light"
+    android:background="@color/red_light"
     app:cardCornerRadius="@dimen/item_corners">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,14 +15,25 @@
         android:padding="@dimen/padding_root">
 
         <TextView
+            android:id="@+id/answer_text_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/translate_text_size"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toStartOf="@id/favorite_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="man" />
+
+        <TextView
             android:id="@+id/translate_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/translate_text_size"
             app:layout_constraintBottom_toTopOf="@id/translate_text_view"
-            app:layout_constraintEnd_toStartOf="@id/translate_image_view"
+            app:layout_constraintEnd_toStartOf="@id/favorite_icon"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/answer_text_text_view"
             tools:text="мужчина" />
 
         <TextView
@@ -34,16 +45,6 @@
             app:layout_constraintTop_toBottomOf="@id/translate_text_view"
             tools:text="mæn" />
 
-        <ImageButton
-            android:id="@+id/song_image_button"
-            android:layout_width="@dimen/size_sound_button"
-            android:layout_height="@dimen/size_sound_button"
-            android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_volume_up_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/transcription_text_view" />
-
         <ImageView
             android:id="@+id/translate_image_view"
             android:layout_width="@dimen/size_item_image_view"
@@ -52,5 +53,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_launcher_background" />
+
+        <ImageButton
+            android:id="@+id/favorite_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/ic_baseline_favorite_border_24"
+            app:layout_constraintEnd_toStartOf="@id/translate_image_view"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

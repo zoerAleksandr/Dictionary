@@ -1,17 +1,44 @@
 package com.example.dictionary.data.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.dictionary.data.room.entity.AnswerDTO
-import com.example.dictionary.domain.entity.Answer
+import com.example.dictionary.data.room.entity.AnswerWithMeanings
+import com.example.dictionary.data.room.entity.MeaningsDTO
+import com.example.dictionary.domain.entity.Meanings
 
 @Dao
 interface AnswerDAO {
-    @Query("SELECT * FROM answer WHERE text =:answerText")
-    fun getMeaningsListByAnswerAsync(answerText: String): List<Answer>
+    @Query("SELECT * FROM meanings")
+    fun getAllData(): List<Meanings>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveAnswerAsync(answer: AnswerDTO): Long
+    fun insertAnswer(answer: AnswerDTO): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMeanings(meaningsDTO: MeaningsDTO): Long
+
+    @Transaction
+    fun insertAnswerWithMeanings(answerWithMeanings: AnswerWithMeanings) {
+        insertAnswer(answerWithMeanings.answerDTO)
+        for (meanings in answerWithMeanings.listMeanings) {
+            insertMeanings(meanings)
+        }
+    }
+
+    @Transaction
+    @Query("SELECT * FROM answer WHERE text LIKE :answerText")
+    fun getAnswerWithMeanings(answerText: String): AnswerWithMeanings
+
+    @Query("SELECT * FROM meanings WHERE answerText LIKE '%' || :answerText || '%'")
+    fun getMeaningsByAnswerText(answerText: String): List<Meanings>
+
+    @Query("SELECT * FROM meanings WHERE answerText LIKE '%' || :answerText || '%'" +
+            " AND isFavorite LIKE :isFavorite")
+    fun getFavoriteMeaningsByAnswerText(answerText: String, isFavorite: Int): List<Meanings>
+
+    @Query("SELECT * FROM meanings WHERE isFavorite LIKE :isFavorite")
+    fun getAllFavoritesMeanings(isFavorite: Int): List<Meanings>
+
+    @Update(entity = MeaningsDTO::class)
+    fun updateMeanings(meanings: Meanings)
 }

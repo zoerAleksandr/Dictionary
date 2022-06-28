@@ -1,17 +1,20 @@
-package com.example.dictionary.view
+package com.example.dictionary.view.main_search_screen
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.example.dictionary.domain.entity.Answer
+import com.example.dictionary.data.room.entity.AnswerWithMeanings
+import com.example.dictionary.view.AppState
+import com.example.dictionary.view.NetworkState
 import kotlinx.coroutines.*
 
-interface MainViewModelContract {
-    abstract class MainViewModel : ViewModel() {
-        abstract val meaningsLiveData: LiveData<AppState>
+interface MainSearchViewModelContract {
+    abstract class MainSearchViewModel : ViewModel() {
+        abstract val liveData: LiveData<AppState>
+        abstract val networkLiveData: LiveData<NetworkState>
         abstract fun getData(text: String, isOnline: Boolean)
         abstract fun getDataFromRemote(text: String)
+        abstract fun saveAnswerToLocal(answer: AnswerWithMeanings)
         abstract fun getDataFromLocal(text: String)
-        abstract fun saveAnswerToLocal(answer: Answer)
         abstract fun getQuerySavedState(key: String): String?
 
         protected val viewModelScope = CoroutineScope(

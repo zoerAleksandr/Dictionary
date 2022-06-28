@@ -6,8 +6,8 @@ import com.example.dictionary.domain.entity.Meanings
 
 @Entity(tableName = "answer")
 data class AnswerDTO(
-    @PrimaryKey(autoGenerate = true)
     val id: Long,
+    @PrimaryKey(autoGenerate = false)
     val text: String,
-    val meanings: List<Meanings>?
+    val meanings: List<Meanings>
 )

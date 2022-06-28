@@ -8,6 +8,8 @@ private const val SERIALIZED_TRANSCRIPTION = "transcription"
 private const val SERIALIZED_SOUND_URL = "soundUrl"
 
 data class Meanings(
+    val id: Long,
+    val answerText: String,
     @field:SerializedName(SERIALIZED_TRANSLATION)
     val translation: Translation?,
     @field:SerializedName(SERIALIZED_PREVIEW_URL)
@@ -15,5 +17,6 @@ data class Meanings(
     @field:SerializedName(SERIALIZED_TRANSCRIPTION)
     val transcription: String?,
     @field:SerializedName(SERIALIZED_SOUND_URL)
-    val soundUrl: String?
+    val soundUrl: String?,
+    var isFavorite: Int
 )

@@ -2,4 +2,14 @@
     <string name="app_name">Dictionary</string>
     <string name="offline_text">нет подключения к сети</string>
     <string name="hint_input">Введите текст</string>
+    <string name="menu_main_search">Поиск</string>
+    <string name="menu_favorite_list">Избранное</string>
+    <string name="menu_history">История</string>
+    <string name="hint_input_history">Поиск по истории</string>
+    <string name="hint_input_favorite">Поиск по избранному</string>
+    <string name="empty_data_text">Здесь пока пусто</string>
+
+    // toast
+    <string name="add_in_favorite">Добавлено в избранное</string>
+    <string name="remove_from_favorite">Удалено из избранного</string>
 </resources>

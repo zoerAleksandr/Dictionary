@@ -1,4 +1,4 @@
-package com.example.dictionary.view
+package com.example.dictionary.view.main_search_screen
 
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -16,7 +16,7 @@ class MainViewHolder(
         if (meanings != null) {
             binding.translateTextView.text = meanings.translation?.translation.toString()
             binding.transcriptionTextView.text = meanings.transcription.toString()
-            binding.translateImageView.load("https:$meanings.previewUrl")
+            binding.translateImageView.load("https:${meanings.previewUrl}")
             binding.songImageButton.setOnClickListener {
                 clickListener.invoke(meanings)
             }
