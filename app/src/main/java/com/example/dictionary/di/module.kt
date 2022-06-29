@@ -6,8 +6,11 @@ import com.example.dictionary.data.retrofit.RepositoryRetrofitImpl
 import com.example.dictionary.data.retrofit.RetrofitImpl
 import com.example.dictionary.data.room.AnswerDataBase
 import com.example.dictionary.data.room.RepositoryRoomImpl
+import com.example.dictionary.playSong
 import com.example.dictionary.view.history_screen.BasicModelContract
 import com.example.dictionary.view.history_screen.HistoryViewModel
+import com.example.dictionary.view.main_search_screen.MainAdapter
+import com.example.dictionary.view.main_search_screen.MainSearchFragment
 import com.example.dictionary.view.main_search_screen.MainSearchViewModelContract
 import com.example.dictionary.view.main_search_screen.MainViewModel
 import org.koin.android.ext.koin.androidContext
@@ -29,4 +32,12 @@ val module = module {
     single { get<AnswerDataBase>().answerDao() }
     viewModel<MainSearchViewModelContract.MainSearchViewModel> { MainViewModel(SavedStateHandle()) }
     viewModel<BasicModelContract.BasicViewModel> { HistoryViewModel(SavedStateHandle()) }
+
+    scope<MainSearchFragment> {
+        scoped {
+            MainAdapter {
+                playSong(androidContext(), it?.soundUrl)
+            }
+        }
+    }
 }
