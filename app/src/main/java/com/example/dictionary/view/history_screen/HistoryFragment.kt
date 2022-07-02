@@ -13,8 +13,7 @@ import com.example.dictionary.R
 import com.example.dictionary.databinding.FragmentHistoryBinding
 import com.example.dictionary.domain.entity.Meanings
 import com.example.dictionary.view.AppState
-import com.example.dictionary.view.favorite_screen.IS_FAVORITE
-import com.example.dictionary.view.favorite_screen.IS_NOT_FAVORITE
+import com.example.dictionary.view.delegateUser
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -81,21 +80,11 @@ class HistoryFragment : Fragment(R.layout.fragment_history) {
     }
 
     private fun favoriteClickListener(meanings: Meanings) {
-        var toastText = ""
-        when (meanings.isFavorite) {
-            IS_FAVORITE -> {
-                meanings.isFavorite = IS_NOT_FAVORITE
-                toastText = resources.getString(R.string.remove_from_favorite)
-            }
-            IS_NOT_FAVORITE -> {
-                meanings.isFavorite = IS_FAVORITE
-                toastText = resources.getString(R.string.add_in_favorite)
-            }
-        }
+        val changedMeanings by delegateUser(meanings)
+        val value = changedMeanings
         lifecycleScope.launchWhenStarted {
-            historyAdapter.updateMeanings(meanings)
-            viewModel.updateMeanings(meanings)
-            Toast.makeText(requireContext(), toastText, Toast.LENGTH_SHORT).show()
+            historyAdapter.updateMeanings(value)
+            viewModel.updateMeanings(value)
         }
     }
 }

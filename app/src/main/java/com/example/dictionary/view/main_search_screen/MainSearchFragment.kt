@@ -11,21 +11,21 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.data.NetworkConnect
 import com.example.dictionary.R
 import com.example.dictionary.databinding.FragmentMainSearchBinding
-import com.example.dictionary.playSong
 import com.example.dictionary.view.AppState
 import com.example.dictionary.view.NetworkState
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.component.KoinScopeComponent
+import org.koin.core.component.getOrCreateScope
+import org.koin.core.component.inject
+import org.koin.core.scope.Scope
 import kotlin.properties.Delegates
 
-class MainSearchFragment : Fragment(R.layout.fragment_main_search) {
+class MainSearchFragment : Fragment(R.layout.fragment_main_search), KoinScopeComponent {
+    override val scope: Scope by getOrCreateScope()
     private val binding: FragmentMainSearchBinding by viewBinding()
     private var isOnline by Delegates.notNull<Boolean>()
     private val viewModel: MainSearchViewModelContract.MainSearchViewModel by viewModel()
-    private val adapter by lazy {
-        MainAdapter {
-            playSong(requireContext(), it?.soundUrl)
-        }
-    }
+    private val adapter: MainAdapter by inject()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,5 +82,10 @@ class MainSearchFragment : Fragment(R.layout.fragment_main_search) {
             }
             else -> {}
         }
+    }
+
+    override fun onDestroy() {
+        scope.close()
+        super.onDestroy()
     }
 }

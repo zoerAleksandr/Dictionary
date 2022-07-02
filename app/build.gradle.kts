@@ -93,4 +93,7 @@ dependencies {
     // Coroutines
     implementation(COROUTINES_CORE_DEP)
     implementation(COROUTINES_ANDROID_DEP)
+
+    // Splash Screen
+    implementation(SPLASH_SCREEN_DEP)
 }

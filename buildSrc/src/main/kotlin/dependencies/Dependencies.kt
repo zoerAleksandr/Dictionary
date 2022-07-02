@@ -1,5 +1,9 @@
 package dependencies
 
+// Splash Screen
+private const val SPLASH_SCREEN_VER = "1.0.0-rc01"
+const val SPLASH_SCREEN_DEP = "androidx.core:core-splashscreen:$SPLASH_SCREEN_VER"
+
 // Android
 private const val CORE_KTX_VER = "1.8.0"
 private const val APP_COMPAT_VER = "1.4.1"
