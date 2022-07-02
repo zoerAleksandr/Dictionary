@@ -8,8 +8,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.data.NetworkConnect
 import com.example.dictionary.R
-import com.example.dictionary.data.retrofit.NetworkConnect
 import com.example.dictionary.databinding.FragmentMainSearchBinding
 import com.example.dictionary.playSong
 import com.example.dictionary.view.AppState
@@ -80,6 +80,7 @@ class MainSearchFragment : Fragment(R.layout.fragment_main_search) {
                 Toast.makeText(requireContext(), appState.throwable.message, Toast.LENGTH_SHORT)
                     .show()
             }
+            else -> {}
         }
     }
 }
